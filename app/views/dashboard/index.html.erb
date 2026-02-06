@@ -1,0 +1,84 @@
+<div class="dashboard-container">
+  <h1>答題統計</h1>
+
+  <div class="stats-overview">
+    <div class="stat-card">
+      <div class="stat-number"><%= @total_count %></div>
+      <div class="stat-label">總答題數</div>
+    </div>
+    <div class="stat-card stat-correct">
+      <div class="stat-number"><%= @correct_count %></div>
+      <div class="stat-label">答對</div>
+    </div>
+    <div class="stat-card stat-wrong">
+      <div class="stat-number"><%= @wrong_count %></div>
+      <div class="stat-label">答錯</div>
+    </div>
+    <div class="stat-card stat-accuracy">
+      <div class="stat-number"><%= @accuracy %>%</div>
+      <div class="stat-label">答對率</div>
+    </div>
+  </div>
+
+  <% if @category_stats.any? %>
+    <h2>各分類答對率</h2>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>分類</th>
+          <th>答題數</th>
+          <th>答對數</th>
+          <th>答對率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @category_stats.each do |stat| %>
+          <tr>
+            <td><span class="category-tag"><%= stat.category %></span></td>
+            <td><%= stat.total %></td>
+            <td><%= stat.correct_total %></td>
+            <td>
+              <% rate = stat.total.to_i > 0 ? (stat.correct_total.to_f / stat.total.to_i * 100).round(1) : 0 %>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: <%= rate %>%"></div>
+              </div>
+              <span><%= rate %>%</span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @daily_stats.any? %>
+    <h2>最近 7 天答題趨勢</h2>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>答題數</th>
+          <th>答對數</th>
+          <th>答對率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @daily_stats.each do |stat| %>
+          <tr>
+            <td><%= stat.quiz_date %></td>
+            <td><%= stat.total %></td>
+            <td><%= stat.correct_total %></td>
+            <td>
+              <% rate = stat.total.to_i > 0 ? (stat.correct_total.to_f / stat.total.to_i * 100).round(1) : 0 %>
+              <%= rate %>%
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div class="quiz-nav">
+    <%= link_to "回到測驗", quiz_path, class: "btn btn-primary" %>
+    <%= link_to "錯誤單字複習", quiz_mistakes_path, class: "btn btn-secondary" %>
+  </div>
+</div>

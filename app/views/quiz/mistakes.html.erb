@@ -1,0 +1,39 @@
+<div class="mistakes-container">
+  <h1>錯誤單字複習</h1>
+
+  <% if @mistakes.any? %>
+    <div class="mistakes-actions">
+      <%= link_to "針對錯誤單字重新測驗", quiz_retry_path, method: :post, class: "btn btn-primary" %>
+    </div>
+
+    <table class="mistakes-table">
+      <thead>
+        <tr>
+          <th>英文單字</th>
+          <th>正確翻譯</th>
+          <th>分類</th>
+          <th>答錯次數</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @mistakes.each do |vocab| %>
+          <tr>
+            <td class="word-english"><%= vocab.english %></td>
+            <td class="word-chinese"><%= vocab.chinese %></td>
+            <td><span class="category-tag"><%= vocab.category %></span></td>
+            <td class="wrong-count"><%= vocab.wrong_count %> 次</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="no-mistakes">
+      <p>目前沒有答錯的單字，繼續保持！</p>
+    </div>
+  <% end %>
+
+  <div class="quiz-nav">
+    <%= link_to "回到測驗", quiz_path, class: "btn btn-secondary" %>
+    <%= link_to "答題統計", dashboard_path, class: "btn btn-secondary" %>
+  </div>
+</div>

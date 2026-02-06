@@ -24,6 +24,28 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar">
+      <div class="nav-brand">IT 英文詞彙學習</div>
+      <div class="nav-links">
+        <% if user_signed_in? %>
+          <%= link_to "測驗", quiz_path %>
+          <%= link_to "錯誤複習", quiz_mistakes_path %>
+          <%= link_to "統計", dashboard_path %>
+          <span class="nav-user"><%= current_user.email %></span>
+          <%= link_to "登出", destroy_user_session_path, data: { turbo_method: :delete } %>
+        <% end %>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <div class="flash flash-notice"><%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="flash flash-alert"><%= alert %></div>
+    <% end %>
+
+    <main class="main-content">
+      <%= yield %>
+    </main>
   </body>
 </html>
