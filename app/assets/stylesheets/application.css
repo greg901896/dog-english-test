@@ -183,6 +183,35 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
   justify-content: center;
 }
 
+/* Choice Quiz */
+.choice-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.choice-form { margin: 0; }
+
+.btn-choice {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: #fff;
+  color: #2c3e50;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-choice:hover {
+  border-color: #3498db;
+  background: #ebf5fb;
+  color: #2980b9;
+}
+
 /* Mistakes */
 .mistakes-container { }
 

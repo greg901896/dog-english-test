@@ -42,8 +42,9 @@
 | id | bigint | 主鍵 |
 | user_id | bigint | 外鍵，關聯 users |
 | vocabulary_id | bigint | 外鍵，關聯 vocabularies |
-| user_answer | string | 使用者輸入的答案 |
+| user_answer | string | 使用者輸入或選擇的答案 |
 | correct | boolean | 是否答對 |
+| quiz_mode | string | 測驗模式："input"（輸入題）或 "choice"（選擇題），預設 "input" |
 | created_at | datetime | |
 
 ## Model 關聯
@@ -78,14 +79,30 @@ QuizRecord
 - 每次作答都會建立一筆 quiz_record
 - 可透過篩選條件選擇分類（category）或難度（difficulty）
 
-### 3. 錯誤單字複習頁面
+### 3. 選擇題測驗頁面（新功能）
+
+- 路徑：`GET /quiz/choice`
+- 畫面顯示一個英文單字 + 四個中文選項（單選）
+- 四個選項 = 1 個正確答案 + 3 個誘導選項
+- 誘導選項的產生邏輯（優先順序）：
+  1. 優先從**同分類（category）**的單字中隨機抽取中文翻譯作為錯誤選項
+  2. 同分類不足 3 個時，從**同難度（difficulty）**的其他分類單字補充
+  3. 仍不足時，從全部單字庫隨機補充
+- 四個選項順序隨機打亂
+- 答對：顯示成功通知（flash notice），自動載入下一題
+- 答錯：顯示錯誤通知（flash alert），同時顯示正確答案
+- 每次作答建立一筆 quiz_record，quiz_mode 記為 "choice"
+- 同樣支援分類（category）和難度（difficulty）篩選
+- 導覽列新增「選擇題」連結
+
+### 4. 錯誤單字複習頁面
 
 - 路徑：`GET /quiz/mistakes`
 - 列出該使用者所有答錯過的單字（去重複）
-- 顯示：英文單字、正確中文翻譯、答錯次數
+- 顯示：英文單字、正確中文翻譯、答錯次數、測驗模式（輸入/選擇）
 - 可以點擊「重新測驗」針對錯誤單字再次練習
 
-### 4. 答題統計頁面
+### 5. 答題統計頁面
 
 - 路徑：`GET /dashboard`
 - 顯示該使用者的答題統計資料：
@@ -93,9 +110,10 @@ QuizRecord
   - 答對數 / 答錯數
   - 答對率（百分比）
   - 各分類的答對率
+  - 各模式（輸入題/選擇題）的答對率
   - 最近 7 天的答題趨勢（每日答題數與答對率）
 
-### 5. 種子資料（db/seeds.rb）
+### 6. 種子資料（db/seeds.rb）
 
 - 預先匯入 IT 相關英文詞彙，至少包含以下分類各 20 個以上單字：
   - `rails`：如 scaffold, migration, routing, controller, model, view, partial, helper, concern, callback, validation, association, scope, turbo, stimulus, devise, middleware, asset, deployment, mailer
@@ -116,20 +134,27 @@ authenticated :user do
 end
 root "devise/sessions#new"
 
-get "quiz",          to: "quiz#index"
-post "quiz/answer",  to: "quiz#answer"
-get "quiz/mistakes", to: "quiz#mistakes"
-post "quiz/retry",   to: "quiz#retry"
-get "dashboard",     to: "dashboard#index"
+get "quiz",            to: "quiz#index"
+post "quiz/answer",    to: "quiz#answer"
+get "quiz/choice",     to: "quiz#choice"
+post "quiz/choice_answer", to: "quiz#choice_answer"
+get "quiz/mistakes",   to: "quiz#mistakes"
+post "quiz/retry",     to: "quiz#retry"
+get "dashboard",       to: "dashboard#index"
 ```
 
 ## 實作順序
 
-1. 安裝 Devise，設定 User model 與登入/註冊功能
-2. 建立 Vocabulary model 與 migration
-3. 建立 QuizRecord model 與 migration
-4. 撰寫 seeds.rb，匯入 IT 詞彙種子資料
-5. 實作 QuizController（測驗、作答、錯誤單字複習）
-6. 實作 DashboardController（答題統計）
-7. 製作前端頁面（使用 Turbo 做到不換頁的答題體驗）
-8. 加上基本的 CSS 樣式讓畫面整潔可用
+1. ~~安裝 Devise，設定 User model 與登入/註冊功能~~ (已完成)
+2. ~~建立 Vocabulary model 與 migration~~ (已完成)
+3. ~~建立 QuizRecord model 與 migration~~ (已完成)
+4. ~~撰寫 seeds.rb，匯入 IT 詞彙種子資料~~ (已完成)
+5. ~~實作 QuizController（輸入題測驗、作答、錯誤單字複習）~~ (已完成)
+6. ~~實作 DashboardController（答題統計）~~ (已完成)
+7. ~~製作前端頁面~~ (已完成)
+8. ~~加上基本的 CSS 樣式~~ (已完成)
+9. 對 quiz_records 新增 quiz_mode 欄位（migration）
+10. 實作選擇題功能（QuizController#choice / #choice_answer）
+11. 建立選擇題 view（quiz/choice.html.erb）
+12. 導覽列加上「選擇題」連結
+13. Dashboard 新增「各模式答對率」統計

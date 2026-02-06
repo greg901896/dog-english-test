@@ -50,6 +50,36 @@
     </table>
   <% end %>
 
+  <% if @mode_stats.any? %>
+    <h2>各模式答對率</h2>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>模式</th>
+          <th>答題數</th>
+          <th>答對數</th>
+          <th>答對率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @mode_stats.each do |stat| %>
+          <tr>
+            <td><span class="category-tag"><%= stat.quiz_mode == "choice" ? "選擇題" : "輸入題" %></span></td>
+            <td><%= stat.total %></td>
+            <td><%= stat.correct_total %></td>
+            <td>
+              <% rate = stat.total.to_i > 0 ? (stat.correct_total.to_f / stat.total.to_i * 100).round(1) : 0 %>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: <%= rate %>%"></div>
+              </div>
+              <span><%= rate %>%</span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
   <% if @daily_stats.any? %>
     <h2>最近 7 天答題趨勢</h2>
     <table class="stats-table">

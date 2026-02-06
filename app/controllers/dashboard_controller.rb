@@ -16,6 +16,14 @@ class DashboardController < ApplicationController
         "SUM(CASE WHEN quiz_records.correct = true THEN 1 ELSE 0 END) AS correct_total"
       )
 
+    @mode_stats = records
+      .group(:quiz_mode)
+      .select(
+        "quiz_records.quiz_mode",
+        "COUNT(*) AS total",
+        "SUM(CASE WHEN quiz_records.correct = true THEN 1 ELSE 0 END) AS correct_total"
+      )
+
     @daily_stats = records
       .where("quiz_records.created_at >= ?", 7.days.ago.beginning_of_day)
       .group("DATE(quiz_records.created_at)")
