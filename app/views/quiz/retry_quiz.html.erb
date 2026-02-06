@@ -1,0 +1,28 @@
+<div class="quiz-container">
+  <h1>錯誤單字重新測驗</h1>
+
+  <% if @vocabulary %>
+    <div class="quiz-card">
+      <div class="quiz-category"><%= @vocabulary.category %></div>
+      <div class="quiz-difficulty">
+        難度：<%= "★" * @vocabulary.difficulty %><%= "☆" * (3 - @vocabulary.difficulty) %>
+      </div>
+      <div class="quiz-word"><%= @vocabulary.english %></div>
+      <p class="quiz-prompt">請選擇正確的中文翻譯：</p>
+
+      <div class="choice-options">
+        <% @options.each do |option| %>
+          <%= form_tag quiz_retry_answer_path, method: :post, class: "choice-form" do %>
+            <%= hidden_field_tag :vocabulary_id, @vocabulary.id %>
+            <%= hidden_field_tag :user_answer, option %>
+            <%= submit_tag option, class: "btn btn-choice" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="quiz-nav">
+    <%= link_to "回到錯誤清單", quiz_mistakes_path, class: "btn btn-secondary" %>
+  </div>
+</div>

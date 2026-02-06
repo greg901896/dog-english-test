@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "quiz/choice",         to: "quiz#choice",         as: :quiz_choice
   post "quiz/choice_answer", to: "quiz#choice_answer",  as: :quiz_choice_answer
   get "quiz/mistakes",       to: "quiz#mistakes",       as: :quiz_mistakes
-  post "quiz/retry",         to: "quiz#retry_mistakes",  as: :quiz_retry
+  get "quiz/retry",          to: "quiz#retry_mistakes",  as: :quiz_retry
+  post "quiz/retry_answer",  to: "quiz#retry_answer",    as: :quiz_retry_answer
 
   get "dashboard", to: "dashboard#index", as: :dashboard
 

@@ -3,7 +3,7 @@
 
   <% if @mistakes.any? %>
     <div class="mistakes-actions">
-      <%= link_to "針對錯誤單字重新測驗", quiz_retry_path, method: :post, class: "btn btn-primary" %>
+      <%= link_to "針對錯誤單字重新測驗", quiz_retry_path, class: "btn btn-primary" %>
     </div>
 
     <table class="mistakes-table">
