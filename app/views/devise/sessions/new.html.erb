@@ -3,8 +3,8 @@
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.label :email, "電子信箱" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.label :username, "帳號" %>
+      <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
     </div>
 
     <div class="field">
