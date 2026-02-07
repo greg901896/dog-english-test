@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "favorite_btn_#{vocabulary.id}" do %>
+  <% if favorited %>
+    <%= button_to favorite_path(vocabulary_id: vocabulary.id), method: :delete, class: "btn-star favorited", title: "取消收藏" do %>
+      ★
+    <% end %>
+  <% else %>
+    <%= button_to favorite_create_path(vocabulary_id: vocabulary.id), method: :post, class: "btn-star", title: "收藏單字" do %>
+      ☆
+    <% end %>
+  <% end %>
+<% end %>

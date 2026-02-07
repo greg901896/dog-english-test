@@ -21,7 +21,10 @@
       <div class="quiz-difficulty">
         難度：<%= "★" * @vocabulary.difficulty %><%= "☆" * (3 - @vocabulary.difficulty) %>
       </div>
-      <div class="quiz-word"><%= @vocabulary.english %></div>
+      <div class="quiz-word-row">
+        <div class="quiz-word"><%= @vocabulary.english %></div>
+        <%= render "shared/favorite_button", vocabulary: @vocabulary, favorited: @favorited %>
+      </div>
       <p class="quiz-prompt">請選擇正確的中文翻譯：</p>
 
       <div class="choice-options">

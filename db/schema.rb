@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_06_152027) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_164747) do
+  create_table "favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "vocabulary_id", null: false
+    t.index ["user_id", "vocabulary_id"], name: "index_favorites_on_user_id_and_vocabulary_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+    t.index ["vocabulary_id"], name: "index_favorites_on_vocabulary_id"
+  end
+
   create_table "quiz_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "correct"
     t.datetime "created_at", null: false
@@ -46,6 +56,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_152027) do
     t.index ["english"], name: "index_vocabularies_on_english", unique: true
   end
 
+  add_foreign_key "favorites", "users"
+  add_foreign_key "favorites", "vocabularies"
   add_foreign_key "quiz_records", "users"
   add_foreign_key "quiz_records", "vocabularies"
 end

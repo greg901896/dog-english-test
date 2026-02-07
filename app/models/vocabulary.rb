@@ -1,5 +1,6 @@
 class Vocabulary < ApplicationRecord
   has_many :quiz_records, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   validates :english, presence: true, uniqueness: true
   validates :chinese, presence: true

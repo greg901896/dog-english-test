@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :quiz_records, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_vocabularies, through: :favorites, source: :vocabulary
 end

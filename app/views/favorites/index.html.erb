@@ -1,0 +1,38 @@
+<div class="favorites-container">
+  <h1>收藏單字</h1>
+
+  <% if @favorites.any? %>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>英文單字</th>
+          <th>中文翻譯</th>
+          <th>分類</th>
+          <th>收藏時間</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @favorites.each do |fav| %>
+          <tr id="favorite_row_<%= fav.vocabulary.id %>">
+            <td class="word-english"><%= fav.vocabulary.english %></td>
+            <td class="word-chinese"><%= fav.vocabulary.chinese %></td>
+            <td><span class="category-tag"><%= fav.vocabulary.category %></span></td>
+            <td><%= fav.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+            <td>
+              <%= button_to "移除收藏", favorite_path(vocabulary_id: fav.vocabulary.id), method: :delete, class: "btn btn-danger btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="no-mistakes">
+      <p>目前沒有收藏的單字。</p>
+    </div>
+  <% end %>
+
+  <div class="quiz-nav">
+    <%= link_to "回到測驗", quiz_path, class: "btn btn-primary" %>
+  </div>
+</div>

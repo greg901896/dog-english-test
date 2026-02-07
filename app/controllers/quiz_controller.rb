@@ -4,8 +4,11 @@ class QuizController < ApplicationController
     scope = Vocabulary.by_category(params[:category]).by_difficulty(params[:difficulty])
     @vocabulary = scope.order("RAND()").first
 
-    return unless @vocabulary.nil?
-    redirect_to quiz_path, alert: "目前沒有符合條件的單字"
+    if @vocabulary
+      @favorited = current_user.favorites.exists?(vocabulary: @vocabulary)
+    else
+      redirect_to quiz_path, alert: "目前沒有符合條件的單字"
+    end
   end
 
   def answer
@@ -38,6 +41,7 @@ class QuizController < ApplicationController
       return
     end
 
+    @favorited = current_user.favorites.exists?(vocabulary: @vocabulary)
     @options = generate_options(@vocabulary)
   end
 
@@ -79,6 +83,7 @@ class QuizController < ApplicationController
     if @vocabulary.nil?
       redirect_to quiz_mistakes_path, notice: "沒有答錯的單字，太厲害了！"
     else
+      @favorited = current_user.favorites.exists?(vocabulary: @vocabulary)
       @options = generate_options(@vocabulary)
       render :retry_quiz
     end

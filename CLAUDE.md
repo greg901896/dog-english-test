@@ -47,14 +47,32 @@
 | quiz_mode | string | 測驗模式："input"（輸入題）或 "choice"（選擇題），預設 "input" |
 | created_at | datetime | |
 
+### favorites（收藏單字）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| id | bigint | 主鍵 |
+| user_id | bigint | 外鍵，關聯 users，not null |
+| vocabulary_id | bigint | 外鍵，關聯 vocabularies，not null |
+| created_at | datetime | |
+
+- 聯合唯一索引：`[user_id, vocabulary_id]`（同一使用者不能重複收藏同一單字）
+
 ## Model 關聯
 
 ```
 User
   has_many :quiz_records
+  has_many :favorites
+  has_many :favorite_vocabularies, through: :favorites, source: :vocabulary
 
 Vocabulary
   has_many :quiz_records
+  has_many :favorites
+
+Favorite
+  belongs_to :user
+  belongs_to :vocabulary
 
 QuizRecord
   belongs_to :user
@@ -102,7 +120,22 @@ QuizRecord
 - 顯示：英文單字、正確中文翻譯、答錯次數、測驗模式（輸入/選擇）
 - 可以點擊「重新測驗」針對錯誤單字再次練習
 
-### 5. 答題統計頁面
+### 5. 收藏單字功能
+
+- 在輸入題（`/quiz`）、選擇題（`/quiz/choice`）、錯題重測（`/quiz/retry`）的單字旁邊顯示一個星號按鈕
+- 未收藏狀態：空心星號 `☆`，點擊後收藏該單字（新增一筆 favorite）
+- 已收藏狀態：實心星號 `★`，點擊後取消收藏（刪除該筆 favorite）
+- 使用 Turbo Frame 讓收藏/取消收藏不需整頁刷新
+
+### 6. 收藏單字列表頁面
+
+- 路徑：`GET /favorites`
+- 列出該使用者所有收藏的單字
+- 顯示：英文單字、中文翻譯、分類、收藏時間
+- 每筆收藏旁有「移除收藏」按鈕，點擊後從列表移除
+- 導覽列新增「收藏」連結
+
+### 7. 答題統計頁面
 
 - 路徑：`GET /dashboard`
 - 顯示該使用者的答題統計資料：
@@ -140,6 +173,11 @@ get "quiz/choice",     to: "quiz#choice"
 post "quiz/choice_answer", to: "quiz#choice_answer"
 get "quiz/mistakes",   to: "quiz#mistakes"
 post "quiz/retry",     to: "quiz#retry"
+
+post "favorites/:vocabulary_id", to: "favorites#create",  as: :favorites
+delete "favorites/:vocabulary_id", to: "favorites#destroy", as: :favorite
+get "favorites",       to: "favorites#index"
+
 get "dashboard",       to: "dashboard#index"
 ```
 
@@ -157,4 +195,9 @@ get "dashboard",       to: "dashboard#index"
 10. 實作選擇題功能（QuizController#choice / #choice_answer）
 11. 建立選擇題 view（quiz/choice.html.erb）
 12. 導覽列加上「選擇題」連結
-13. Dashboard 新增「各模式答對率」統計
+13. ~~Dashboard 新增「各模式答對率」統計~~ (已完成)
+14. 建立 Favorite model 與 migration（聯合唯一索引）
+15. 實作 FavoritesController（create / destroy / index）
+16. 在輸入題、選擇題、錯題重測 view 加上星號收藏按鈕（Turbo Frame）
+17. 建立收藏列表頁面（favorites/index.html.erb）
+18. 導覽列加上「收藏」連結
