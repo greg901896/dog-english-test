@@ -6,8 +6,10 @@ class QuizController < ApplicationController
 
     if @vocabulary
       @favorited = current_user.favorites.exists?(vocabulary: @vocabulary)
-    else
+    elsif params[:category].present? || params[:difficulty].present?
       redirect_to quiz_path, alert: "目前沒有符合條件的單字"
+    else
+      redirect_to dashboard_path, alert: "還沒有單字資料，請先匯入"
     end
   end
 
@@ -37,7 +39,11 @@ class QuizController < ApplicationController
     @vocabulary = scope.order("RAND()").first
 
     if @vocabulary.nil?
-      redirect_to quiz_choice_path, alert: "目前沒有符合條件的單字"
+      if params[:category].present? || params[:difficulty].present?
+        redirect_to quiz_choice_path, alert: "目前沒有符合條件的單字"
+      else
+        redirect_to dashboard_path, alert: "還沒有單字資料，請先匯入"
+      end
       return
     end
 
