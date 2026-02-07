@@ -57,9 +57,8 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: dog_production
-    username: dog
-    password: <%= ENV["DOG_DATABASE_PASSWORD"] %>
+    url: <%= ENV["DATABASE_URL"] %>
+    socket: null
   cache:
     <<: *primary_production
     database: dog_production_cache
