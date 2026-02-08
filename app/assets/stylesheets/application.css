@@ -407,24 +407,66 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
   font-size: 0.9rem;
 }
 
+/* Leaderboard */
+.leaderboard-container { text-align: center; }
+.leaderboard-container .stats-table { text-align: left; }
+
+.rank-number { font-weight: bold; font-size: 1.2rem; }
+.rank-1 { color: #f1c40f; }
+.rank-2 { color: #95a5a6; }
+.rank-3 { color: #cd6133; }
+
+.rank-username { font-weight: 600; color: #2c3e50; }
+
+.rank-title {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.rank-title-good { background: #d4edda; color: #155724; }
+.rank-title-bad { background: #f8d7da; color: #721c24; }
+
+.rank-points { font-weight: bold; color: #3498db; font-size: 1.1rem; }
+
+.current-user { background: #ebf5fb; }
+
 /* ========== Mobile RWD (< 768px) ========== */
 @media (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  html, body {
+    overflow-x: hidden;
+  }
+
   /* Navbar: stack vertically */
   .navbar {
     flex-direction: column;
     padding: 0.6rem 1rem;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.6rem 1rem;
-    font-size: 0.9rem;
+    gap: 0.4rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .nav-links a {
+    padding: 0.2rem 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  .nav-user {
+    font-size: 0.78rem;
   }
 
   /* Main content */
   .main-content {
+    max-width: 100%;
     margin: 1rem auto;
     padding: 0 0.8rem;
   }
@@ -434,11 +476,16 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
 
   /* Quiz card */
   .quiz-card {
-    padding: 1.5rem 1rem;
+    padding: 1.2rem 0.8rem;
   }
 
   .quiz-word {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    word-break: break-word;
+  }
+
+  .quiz-word-row {
+    flex-wrap: wrap;
   }
 
   /* Choice options: single column on mobile */
@@ -463,17 +510,18 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
     text-align: center;
   }
 
-  /* Tables: horizontal scroll */
+  /* Tables: horizontal scroll wrapper */
   .mistakes-table, .stats-table {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    max-width: 100%;
   }
 
   .mistakes-table th, .mistakes-table td,
   .stats-table th, .stats-table td {
-    padding: 0.6rem 0.7rem;
-    font-size: 0.85rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
     white-space: nowrap;
   }
 
@@ -484,15 +532,19 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
   }
 
   .stat-card {
-    padding: 1rem;
+    padding: 0.8rem;
   }
 
   .stat-number {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
   }
 
   .progress-bar {
-    width: 60px;
+    width: 50px;
   }
 
   /* Buttons: larger tap targets */
@@ -512,6 +564,7 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
 
   /* Devise form */
   .devise-container {
+    max-width: 100%;
     margin: 1.5rem auto;
     padding: 1.5rem;
   }
@@ -526,4 +579,8 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
+
+  /* Leaderboard */
+  .rank-number { font-size: 1rem; }
+  .rank-points { font-size: 0.95rem; }
 }
