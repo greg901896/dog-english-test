@@ -1,5 +1,9 @@
 # IT English Vocabulary Quiz - 專案規格書
 
+## 開發規則
+
+在改寫 code 之前先跟我說會改動到什麼地方，如果有回答確認才開始實作程式碼
+
 ## 專案概述
 
 一個用 Rails 打造的 IT 英文詞彙學習平台，幫助使用者提升閱讀 IT 技術文件（如 Ruby on Rails Guides）的英文能力。
