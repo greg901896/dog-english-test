@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   delete "favorites/:vocabulary_id", to: "favorites#destroy", as: :favorite
 
   get "dashboard", to: "dashboard#index", as: :dashboard
+  get "leaderboard", to: "leaderboard#index", as: :leaderboard
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

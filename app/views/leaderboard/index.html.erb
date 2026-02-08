@@ -1,0 +1,46 @@
+<div class="leaderboard-container">
+  <h1>排行榜</h1>
+
+  <% if @rankings.any? %>
+    <table class="stats-table leaderboard-table">
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>名稱</th>
+          <th>稱號</th>
+          <th>總答題數</th>
+          <th>答對率</th>
+          <th>積分</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rankings.each_with_index do |user, index| %>
+          <% accuracy = user.total_count.to_i > 0 ? (user.correct_count.to_f / user.total_count.to_i * 100).round(1) : 0 %>
+          <% title = accuracy >= 80 ? "好狗" : "爛狗" %>
+          <tr class="<%= 'current-user' if user.id == current_user.id %>">
+            <td class="rank-number rank-<%= index + 1 %>"><%= index + 1 %></td>
+            <td class="rank-username"><%= user.username %></td>
+            <td><span class="rank-title rank-title-<%= title == '好狗' ? 'good' : 'bad' %>"><%= title %></span></td>
+            <td><%= user.total_count %></td>
+            <td>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: <%= accuracy %>%"></div>
+              </div>
+              <span><%= accuracy %>%</span>
+            </td>
+            <td class="rank-points"><%= user.points %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="no-mistakes">
+      <p>目前還沒有人答過題，快來當第一個！</p>
+    </div>
+  <% end %>
+
+  <div class="quiz-nav">
+    <%= link_to "回到測驗", quiz_choice_path, class: "btn btn-primary" %>
+    <%= link_to "答題統計", dashboard_path, class: "btn btn-secondary" %>
+  </div>
+</div>
