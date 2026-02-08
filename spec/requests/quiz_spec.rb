@@ -8,33 +8,6 @@ RSpec.describe "Quiz", type: :request do
     create_list(:vocabulary, 5, category: "rails")
   end
 
-  describe "GET /quiz" do
-    it "returns success" do
-      get quiz_path
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "shows a vocabulary word" do
-      get quiz_path
-      expect(response.body).to include("quiz-word")
-    end
-  end
-
-  describe "POST /quiz/answer" do
-    let(:vocab) { Vocabulary.first }
-
-    it "creates a quiz record on correct answer" do
-      expect {
-        post quiz_answer_path, params: { vocabulary_id: vocab.id, user_answer: vocab.chinese }
-      }.to change(QuizRecord, :count).by(1)
-    end
-
-    it "redirects after answering" do
-      post quiz_answer_path, params: { vocabulary_id: vocab.id, user_answer: "wrong" }
-      expect(response).to have_http_status(:redirect)
-    end
-  end
-
   describe "GET /quiz/choice" do
     it "returns success" do
       get quiz_choice_path
@@ -72,7 +45,7 @@ RSpec.describe "Quiz", type: :request do
     before { sign_out user }
 
     it "redirects to login" do
-      get quiz_path
+      get quiz_choice_path
       expect(response).to redirect_to(new_user_session_path)
     end
   end

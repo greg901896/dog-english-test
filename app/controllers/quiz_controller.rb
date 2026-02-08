@@ -1,38 +1,4 @@
 class QuizController < ApplicationController
-  def index
-    @categories = Vocabulary.distinct.pluck(:category)
-    scope = Vocabulary.by_category(params[:category]).by_difficulty(params[:difficulty])
-    @vocabulary = scope.order("RAND()").first
-
-    if @vocabulary
-      @favorited = current_user.favorites.exists?(vocabulary: @vocabulary)
-    elsif params[:category].present? || params[:difficulty].present?
-      redirect_to quiz_path, alert: "目前沒有符合條件的單字"
-    else
-      redirect_to dashboard_path, alert: "還沒有單字資料，請先匯入"
-    end
-  end
-
-  def answer
-    @vocabulary = Vocabulary.find(params[:vocabulary_id])
-    user_answer = params[:user_answer].to_s.strip
-    correct = @vocabulary.chinese.include?(user_answer) && user_answer.present?
-
-    current_user.quiz_records.create!(
-      vocabulary: @vocabulary,
-      user_answer: user_answer,
-      correct: correct
-    )
-
-    if correct
-      redirect_to quiz_path(category: params[:category], difficulty: params[:difficulty]),
-                  notice: "答對了！ #{@vocabulary.english} = #{@vocabulary.chinese}"
-    else
-      redirect_to quiz_path(category: params[:category], difficulty: params[:difficulty]),
-                  alert: "答錯了！ #{@vocabulary.english} 的正確答案是「#{@vocabulary.chinese}」"
-    end
-  end
-
   def choice
     @categories = Vocabulary.distinct.pluck(:category)
     scope = Vocabulary.by_category(params[:category]).by_difficulty(params[:difficulty])

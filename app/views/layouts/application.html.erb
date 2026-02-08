@@ -28,8 +28,7 @@
       <div class="nav-brand">DOG 小教室</div>
       <div class="nav-links">
         <% if user_signed_in? %>
-          <%= link_to "輸入題", quiz_path %>
-          <%= link_to "選擇題", quiz_choice_path %>
+          <%= link_to "測驗", quiz_choice_path %>
           <%= link_to "錯誤複習", quiz_mistakes_path %>
           <%= link_to "收藏", favorites_path %>
           <%= link_to "統計", dashboard_path %>
