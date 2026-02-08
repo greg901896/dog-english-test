@@ -64,7 +64,7 @@
       <tbody>
         <% @mode_stats.each do |stat| %>
           <tr>
-            <td><span class="category-tag"><%= stat.quiz_mode == "choice" ? "選擇題" : "輸入題" %></span></td>
+            <td><span class="category-tag"><%= stat.quiz_mode == "choice" ? "選擇題" : "其他" %></span></td>
             <td><%= stat.total %></td>
             <td><%= stat.correct_total %></td>
             <td>
@@ -108,7 +108,7 @@
   <% end %>
 
   <div class="quiz-nav">
-    <%= link_to "回到測驗", quiz_path, class: "btn btn-primary" %>
+    <%= link_to "回到測驗", quiz_choice_path, class: "btn btn-primary" %>
     <%= link_to "錯誤單字複習", quiz_mistakes_path, class: "btn btn-secondary" %>
   </div>
 </div>

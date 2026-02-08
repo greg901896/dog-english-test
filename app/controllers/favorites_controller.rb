@@ -15,7 +15,7 @@ class FavoritesController < ApplicationController
           locals: { vocabulary: vocabulary, favorited: true }
         )
       end
-      format.html { redirect_back fallback_location: quiz_path }
+      format.html { redirect_back fallback_location: quiz_choice_path }
     end
   end
 

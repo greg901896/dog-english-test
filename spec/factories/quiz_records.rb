@@ -4,6 +4,6 @@ FactoryBot.define do
     vocabulary
     user_answer { "測試答案" }
     correct { false }
-    quiz_mode { "input" }
+    quiz_mode { "choice" }
   end
 end
