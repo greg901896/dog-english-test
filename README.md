@@ -1,24 +1,18 @@
-# README
+## 專案簡介
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+這是一個用 Ruby on Rails 打造的 **IT 英文詞彙學習平台**，目標是幫助開發者提升閱讀技術文件時的英文理解能力。系統提供「英翻中」的測驗模式，並紀錄使用者常錯的單字，方便之後針對性複習打造客製化的英文筆記。
 
-Things you may want to cover:
+主要特色包含：
 
-* Ruby version
+- **單字測驗（選擇題）**：顯示英文單字與四個中文選項（1 正確 + 3 誘導），誘導選項優先從同分類與同難度的單字中產生。
+- **錯誤單字複習**：自動彙整使用者曾經答錯的單字（去重複），顯示錯誤次數與測驗模式，支援重新測驗。
+- **收藏單字**：在測驗與錯題重測畫面中，可以用星號快速收藏單字，並在收藏列表中集中查看。
+- **答題統計儀表板**：提供總答題數、答對率、各分類與各測驗模式的答對率，以及最近 7 天的學習趨勢，協助使用者掌握學習成效。
 
-* System dependencies
+技術棧：
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- **Backend**：Ruby on Rails 8.1.2（Ruby 3.2.4）
+- **Database**：MySQL（mysql2）
+- **認證**：Devise
+- **Frontend**：Hotwire（Turbo + Stimulus）＋ Importmap ＋ Propshaft
+- deploy : Railway 
