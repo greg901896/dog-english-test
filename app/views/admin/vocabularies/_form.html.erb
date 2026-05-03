@@ -23,10 +23,16 @@
 
     <div class="admin-form-field">
       <%= form.label :category, "分類" %>
-      <%= form.select :category,
-                      options_for_select(Vocabulary::CATEGORIES.map { |category| [category, category] }, vocabulary.category),
-                      { include_blank: "選擇分類" },
-                      class: "admin-select" %>
+      <%= form.text_field :category,
+                          class: "admin-input",
+                          list: "category-options",
+                          placeholder: "例如：rails、api、security" %>
+      <datalist id="category-options">
+        <% @category_options.each do |category| %>
+          <option value="<%= category %>">
+        <% end %>
+      </datalist>
+      <p class="admin-field-hint">可輸入新分類，也可使用既有分類建議。</p>
     </div>
 
     <div class="admin-form-field">

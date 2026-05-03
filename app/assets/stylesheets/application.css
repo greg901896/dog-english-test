@@ -542,6 +542,12 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
   margin-bottom: 0.3rem;
 }
 
+.admin-field-hint {
+  color: #95a5a6;
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+}
+
 .admin-check-field {
   display: flex;
   gap: 0.55rem;
