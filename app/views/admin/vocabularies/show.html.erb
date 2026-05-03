@@ -1,0 +1,78 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div>
+      <p class="admin-kicker">Admin</p>
+      <h1><%= @vocabulary.english %></h1>
+      <p class="admin-description">查看單字詳細資料，或進入編輯頁調整內容。</p>
+    </div>
+
+    <div class="admin-header-actions">
+      <%= link_to "編輯", edit_admin_vocabulary_path(@vocabulary), class: "btn btn-primary" %>
+      <%= link_to "回列表", admin_vocabularies_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+
+  <section class="admin-panel">
+    <dl class="admin-detail-list">
+      <div>
+        <dt>英文</dt>
+        <dd><%= @vocabulary.english %></dd>
+      </div>
+
+      <div>
+        <dt>中文</dt>
+        <dd><%= @vocabulary.chinese %></dd>
+      </div>
+
+      <div>
+        <dt>分類</dt>
+        <dd>
+          <% if @vocabulary.category.present? %>
+            <span class="category-tag"><%= @vocabulary.category %></span>
+          <% else %>
+            <span class="admin-muted">未分類</span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div>
+        <dt>難度</dt>
+        <dd><%= "★" * @vocabulary.difficulty.to_i %></dd>
+      </div>
+
+      <div>
+        <dt>狀態</dt>
+        <dd>
+          <% if @vocabulary.active? %>
+            <span class="status-badge status-active">啟用中</span>
+          <% else %>
+            <span class="status-badge status-inactive">已停用</span>
+          <% end %>
+        </dd>
+      </div>
+
+      <div>
+        <dt>建立時間</dt>
+        <dd><%= l(@vocabulary.created_at, format: :short) %></dd>
+      </div>
+
+      <div>
+        <dt>更新時間</dt>
+        <dd><%= l(@vocabulary.updated_at, format: :short) %></dd>
+      </div>
+    </dl>
+
+    <% if @vocabulary.active? %>
+      <div class="admin-danger-zone">
+        <div>
+          <strong>停用單字</strong>
+          <p>停用後，前台測驗不會再抽到這個單字，但歷史答題與收藏資料會保留。</p>
+        </div>
+        <%= link_to "停用",
+                    admin_vocabulary_path(@vocabulary),
+                    class: "btn btn-danger",
+                    data: { turbo_method: :delete, turbo_confirm: "確定要停用「#{@vocabulary.english}」嗎？" } %>
+      </div>
+    <% end %>
+  </section>
+</div>

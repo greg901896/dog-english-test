@@ -1,0 +1,13 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div>
+      <p class="admin-kicker">Admin</p>
+      <h1>新增單字</h1>
+      <p class="admin-description">新增 IT 英文詞彙到題庫。建立後若保持啟用，前台測驗就可以抽到這個單字。</p>
+    </div>
+  </div>
+
+  <section class="admin-panel">
+    <%= render "form", vocabulary: @vocabulary %>
+  </section>
+</div>
