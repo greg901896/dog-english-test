@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "vocabularies#index"
-    resources :vocabularies, only: [:index]
+    resources :vocabularies
   end
 
   authenticated :user do

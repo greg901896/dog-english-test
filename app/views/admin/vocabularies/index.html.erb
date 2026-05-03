@@ -3,7 +3,7 @@
     <div>
       <p class="admin-kicker">Admin</p>
       <h1>單字管理後台</h1>
-      <p class="admin-description">管理 IT 英文詞彙題庫。第一版先建立權限入口，下一步會加入搜尋、篩選、新增與編輯流程。</p>
+      <p class="admin-description">管理 IT 英文詞彙題庫。可以先從這裡檢查單字內容、分類、難度與啟用狀態。</p>
     </div>
   </div>
 
@@ -25,20 +25,103 @@
   </div>
 
   <section class="admin-panel">
-    <h2>下一步功能</h2>
-    <div class="admin-next-steps">
-      <div class="admin-step">
-        <strong>單字列表</strong>
-        <span>顯示英文、中文、分類、難度與狀態。</span>
+    <div class="admin-panel-header">
+      <div>
+        <h2>單字列表</h2>
+        <p class="admin-description">目前顯示 <%= @vocabularies.size %> 筆符合條件的單字。</p>
       </div>
-      <div class="admin-step">
-        <strong>搜尋與篩選</strong>
-        <span>支援英文、中文、分類、難度與啟用狀態。</span>
-      </div>
-      <div class="admin-step">
-        <strong>新增與編輯</strong>
-        <span>讓 admin 從後台維護題庫，不必直接改資料庫。</span>
-      </div>
+      <%= link_to "新增單字", new_admin_vocabulary_path, class: "btn btn-primary" %>
     </div>
+
+    <%= form_with url: admin_vocabularies_path, method: :get, class: "admin-filter-form" do %>
+      <div class="admin-filter-field">
+        <%= label_tag :query, "搜尋" %>
+        <%= text_field_tag :query, params[:query], placeholder: "英文或中文", class: "admin-input" %>
+      </div>
+
+      <div class="admin-filter-field">
+        <%= label_tag :category, "分類" %>
+        <%= select_tag :category,
+                       options_for_select([["全部分類", ""]] + @categories.map { |category| [category, category] }, params[:category]),
+                       class: "admin-select" %>
+      </div>
+
+      <div class="admin-filter-field">
+        <%= label_tag :difficulty, "難度" %>
+        <%= select_tag :difficulty,
+                       options_for_select([["全部難度", ""], ["1", "1"], ["2", "2"], ["3", "3"]], params[:difficulty]),
+                       class: "admin-select" %>
+      </div>
+
+      <div class="admin-filter-field">
+        <%= label_tag :active, "狀態" %>
+        <%= select_tag :active,
+                       options_for_select([["全部狀態", ""], ["啟用中", "true"], ["已停用", "false"]], params[:active]),
+                       class: "admin-select" %>
+      </div>
+
+      <div class="admin-filter-actions">
+        <%= submit_tag "套用篩選", class: "btn btn-primary" %>
+        <%= link_to "清除", admin_vocabularies_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+
+    <% if @vocabularies.any? %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>英文</th>
+              <th>中文</th>
+              <th>分類</th>
+              <th>難度</th>
+              <th>狀態</th>
+              <th>更新時間</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @vocabularies.each do |vocabulary| %>
+              <tr>
+                <td data-label="英文"><span class="word-english"><%= vocabulary.english %></span></td>
+                <td data-label="中文"><span class="word-chinese"><%= vocabulary.chinese %></span></td>
+                <td data-label="分類">
+                  <% if vocabulary.category.present? %>
+                    <span class="category-tag"><%= vocabulary.category %></span>
+                  <% else %>
+                    <span class="admin-muted">未分類</span>
+                  <% end %>
+                </td>
+                <td data-label="難度"><%= "★" * vocabulary.difficulty.to_i %></td>
+                <td data-label="狀態">
+                  <% if vocabulary.active? %>
+                    <span class="status-badge status-active">啟用中</span>
+                  <% else %>
+                    <span class="status-badge status-inactive">已停用</span>
+                  <% end %>
+                </td>
+                <td data-label="更新時間"><%= l(vocabulary.updated_at, format: :short) %></td>
+                <td data-label="操作">
+                  <div class="admin-table-actions">
+                    <%= link_to "查看", admin_vocabulary_path(vocabulary), class: "btn btn-secondary btn-sm" %>
+                    <%= link_to "編輯", edit_admin_vocabulary_path(vocabulary), class: "btn btn-primary btn-sm" %>
+                    <% if vocabulary.active? %>
+                      <%= link_to "停用",
+                                  admin_vocabulary_path(vocabulary),
+                                  class: "btn btn-danger btn-sm",
+                                  data: { turbo_method: :delete, turbo_confirm: "確定要停用「#{vocabulary.english}」嗎？" } %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="admin-empty">
+        沒有符合條件的單字。
+      </div>
+    <% end %>
   </section>
 </div>

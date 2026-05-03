@@ -1,0 +1,50 @@
+<%= form_with model: [:admin, vocabulary], class: "admin-form" do |form| %>
+  <% if vocabulary.errors.any? %>
+    <div class="admin-form-errors">
+      <strong>請確認以下欄位：</strong>
+      <ul>
+        <% vocabulary.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-grid">
+    <div class="admin-form-field">
+      <%= form.label :english, "英文" %>
+      <%= form.text_field :english, class: "admin-input", placeholder: "例如：migration" %>
+    </div>
+
+    <div class="admin-form-field">
+      <%= form.label :chinese, "中文" %>
+      <%= form.text_field :chinese, class: "admin-input", placeholder: "例如：資料庫遷移" %>
+    </div>
+
+    <div class="admin-form-field">
+      <%= form.label :category, "分類" %>
+      <%= form.select :category,
+                      options_for_select(Vocabulary::CATEGORIES.map { |category| [category, category] }, vocabulary.category),
+                      { include_blank: "選擇分類" },
+                      class: "admin-select" %>
+    </div>
+
+    <div class="admin-form-field">
+      <%= form.label :difficulty, "難度" %>
+      <%= form.select :difficulty,
+                      options_for_select([["1：簡單", 1], ["2：中等", 2], ["3：困難", 3]], vocabulary.difficulty),
+                      {},
+                      class: "admin-select" %>
+    </div>
+
+    <label class="admin-check-field">
+      <%= form.check_box :active %>
+      <span>啟用這個單字，讓前台測驗可以抽到</span>
+    </label>
+  </div>
+
+  <div class="admin-form-actions">
+    <%= form.submit vocabulary.persisted? ? "更新單字" : "新增單字", class: "btn btn-primary" %>
+    <%= link_to "取消", vocabulary.persisted? ? admin_vocabulary_path(vocabulary) : admin_vocabularies_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
