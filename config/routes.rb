@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  namespace :admin do
+    root "vocabularies#index"
+    resources :vocabularies, only: [:index]
+  end
+
   authenticated :user do
     root "quiz#choice", as: :authenticated_root
   end

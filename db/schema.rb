@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_031639) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_03_000200) do
   create_table "favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -34,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_031639) do
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email"
     t.string "encrypted_password", default: "", null: false
@@ -47,12 +48,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_031639) do
   end
 
   create_table "vocabularies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.string "category"
     t.string "chinese", null: false
     t.datetime "created_at", null: false
     t.integer "difficulty", default: 1
     t.string "english", null: false
     t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_vocabularies_on_active"
     t.index ["category"], name: "index_vocabularies_on_category"
     t.index ["english"], name: "index_vocabularies_on_english", unique: true
   end

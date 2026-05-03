@@ -8,4 +8,5 @@ class Vocabulary < ApplicationRecord
 
   scope :by_category, ->(cat) { where(category: cat) if cat.present? }
   scope :by_difficulty, ->(diff) { where(difficulty: diff) if diff.present? }
+  scope :active, -> { where(active: true) }
 end

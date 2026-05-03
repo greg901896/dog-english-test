@@ -33,6 +33,9 @@
           <%= link_to "收藏", favorites_path %>
           <%= link_to "統計", dashboard_path %>
           <%= link_to "排行", leaderboard_path %>
+          <% if current_user.admin? %>
+            <%= link_to "後台", admin_root_path %>
+          <% end %>
           <%= link_to "登出", destroy_user_session_path, data: { turbo_method: :delete } %>
           <span class="nav-user"><%= current_user.username %></span>
         <% end %>

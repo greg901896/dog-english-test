@@ -433,6 +433,70 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
 
 .current-user { background: #ebf5fb; }
 
+/* Admin */
+.admin-container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.admin-header {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.admin-kicker {
+  color: #3498db;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.admin-description {
+  color: #7f8c8d;
+  max-width: 620px;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.admin-panel {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.admin-next-steps {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.admin-step {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.admin-step strong {
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+.admin-step span {
+  color: #7f8c8d;
+  text-align: right;
+}
+
 /* ========== Mobile RWD (< 768px) ========== */
 @media (max-width: 768px) {
   /* Prevent horizontal overflow */
@@ -526,9 +590,24 @@ h2 { font-size: 1.3rem; margin: 2rem 0 1rem; color: #34495e; }
   }
 
   /* Dashboard stat cards */
-  .stats-overview {
+  .stats-overview,
+  .admin-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.6rem;
+  }
+
+  .admin-header,
+  .admin-panel {
+    padding: 1.2rem;
+  }
+
+  .admin-step {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .admin-step span {
+    text-align: left;
   }
 
   .stat-card {
